@@ -8,6 +8,7 @@ export default function Register() {
   const navigate = useNavigate();
   let [validationError, setValidationError]= useState([]);
   let [errorMsg, setErrorMsg]= useState('');
+
   function validation(){
     const schema = Joi.object({
       userName:Joi.string()
@@ -15,11 +16,23 @@ export default function Register() {
       .min(3)
       .max(30)
       .required(),
-      email : Joi.string().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }),
-      password : Joi.string().pattern(new RegExp('^[A-Za-z0-9]{5,20}$'))
+
+      dateOfBirth: Joi.date() 
+      .less('1-1-2010')
+      .required().messages({ 'date.less':'year must be less than 2010'}),
+
+      email : Joi.string().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }).required(),
+
+      password : Joi.string().pattern(new RegExp('^[A-Za-z0-9]{5,20}$')).required().messages({'string.pattern.base':'password must be more than 5 characters and less than 20 characters'}),
+
+      rePassword: Joi.string()
+      .valid(Joi.ref('password'))
+      .required().messages({ 'any.only':'password doesn\'t match', 'string.empty':'confirmation password is required'})
     })
-    return schema.validate(userData, {abortEarly:true})
+    return schema.validate(userData, {abortEarly:false})         
   }
+
+
   let [userData,setUserData] = useState({
     userName:'',
     dateOfBirth:'',
@@ -27,32 +40,41 @@ export default function Register() {
     password:'',
     rePassword:'',
   })
+
+
   const getData = (e)=>{
     let data = {...userData};
     data[e.target.name]=e.target.value;
     setUserData(data)
   }
+
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    let validate = validation();
+    setErrorMsg('');
+    setValidationError([]);
+    const validate = validation();
     if(validate.error){
-      setValidationError(validate.error.details)
+      setValidationError(validate.error.details);
     }
     else{
-      axios.post('https://cors-anywhere.herokuapp.com/http://hawas.runasp.net/api/v1/Register', userData)
+      axios.post('http://hawas.runasp.net/api/v1/Register', userData)
       .then((res) => {
-        console.log(res);
+        navigate('/login')
       })
       .catch((err) => {
-        console.log(err);
+        setErrorMsg(err.response.data);
       });
     }
   };
   return (
     <div className=''>
       <div className='container w-50'>
-        <h1 className='text-center'>Register</h1>
-        {errorMsg.length>0?(<h1>Error</h1>):<></>}
+        <h1 className='text-center mb-3'>Register</h1>
+        {errorMsg.length>0 && (<h1 className='h6 alert alert-danger'>{errorMsg}</h1>)}
+        {validationError.length>0 && (validationError.map((error,index)=>(
+          <h1 key={index} className='h6 alert alert-danger'>{error.message}</h1>
+        )))}
         <form onSubmit={handleSubmit} action="" className='mt-4 mx-lg-5 d-flex flex-column'>
           <label htmlFor="" className='form-label fs-4'>Username</label>
           <input type="text" name='userName' className='form-control rounded-5 mb-4' onChange={getData}/>

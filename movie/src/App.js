@@ -1,28 +1,76 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import '../node_modules/mdbootstrap/css/mdb.css'
 import './App.css'
 import Home from './components/Home/index.jsx';
+import {jwtDecode} from 'jwt-decode';
 import Register from './components/Register/index.jsx';
 import Login from './components/Login/index';
 import People from './components/People/index';
 import Tv from './components/Tv/index';
 import Movies from './components/Movies/index';
 import Navbar from './components/Navbar/index';
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 
 export default function App() {
+
+  const [userData, setUserData] = useState(null);
+
+  function savaDataUser(){
+    let encodedToken = localStorage.getItem('token');
+    let decdodedToken = jwtDecode(encodedToken);
+    setUserData(decdodedToken);
+  }
+
+  function logOut(){
+    setUserData(null)
+    localStorage.removeItem('token');
+  }
+
+  function ProtectedRoute({children}){
+    if(userData){
+      return children;
+      
+    }else{
+      return <Navigate to={'/login'}/>;
+    }
+  }
+
+  useEffect(()=>{
+    savaDataUser();
+  },[])
+
   return (
     <div >
-      <Navbar />
+      <Navbar userData = {userData} logOut={logOut}/>
       <div className='container mt-5'>
         <Routes>
-          <Route path='' element={<Home />}/>
-          <Route path='home' element={<Home />}/>
-          {/* <Route path='movies' element={<Movies />}/> */}
-          <Route path='people' element={<People />}/>
-          <Route path='tv' element={<Tv />}/>
-          <Route path='login' element={<Login />}/>
+          <Route path='' element={
+            <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>}/>
+          <Route path='home' element={
+            <ProtectedRoute>
+            <Home />
+          </ProtectedRoute>
+          }/>
+          <Route path='movies' element={
+            <ProtectedRoute>
+            <Movies />
+            </ProtectedRoute>
+          }/>
+          <Route path='people' element={
+            <ProtectedRoute>
+            <People />
+            </ProtectedRoute>
+          }/>
+          <Route path='tv' element={
+            <ProtectedRoute>
+            <Tv />
+            </ProtectedRoute>
+          }/>
+          <Route path='login' element={
+              <Login saveUserData={savaDataUser} />}/>
           <Route path='register' element={<Register />}/>
           <Route path='*' element={<h1>Not Found</h1>}/>
         </Routes>
