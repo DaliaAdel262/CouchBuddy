@@ -1,11 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap');
 :root{
-  --mainColor:rgb(109, 102, 44);
-  --secondaryColor:rgb(64, 60, 25);
-  --lighterColor:rgb(179, 167, 60);
+  --mainColor:rgb(20, 13, 13);
+  --secondaryColor:rgb(5, 3, 3);
+  --lighterColor:rgb(83, 42, 42);
 }
 body{
   background-color: var(--mainColor) !important;
   color:white !important;
   font-family: "Josefin Sans", sans-serif;
+}
+a{
+  text-decoration: none;
+  color: white;
+}
+a:hover{
+  color: white;
 }

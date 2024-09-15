@@ -11,6 +11,7 @@ import Tv from './components/Tv/index';
 import Movies from './components/Movies/index';
 import Navbar from './components/Navbar/index';
 import { Navigate, Route, Routes } from 'react-router-dom';
+import Details from './components/Details';
 
 export default function App() {
 
@@ -73,6 +74,7 @@ export default function App() {
               <Login saveUserData={savaDataUser} />}/>
           <Route path='register' element={<Register />}/>
           <Route path='*' element={<h1>Not Found</h1>}/>
+          <Route path='details/:category/:id' element={<Details />}/>
         </Routes>
       </div>
     </div>
