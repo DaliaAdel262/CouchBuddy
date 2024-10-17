@@ -21,9 +21,11 @@ export default function App() {
   const [userData, setUserData] = useState(null);
 
   function savaDataUser(){
-    let encodedToken = localStorage.getItem('token');
-    let decdodedToken = jwtDecode(encodedToken);
-    setUserData(decdodedToken);
+    if(localStorage.getItem('token')){
+      let encodedToken = localStorage.getItem('token');
+      let decdodedToken = jwtDecode(encodedToken);
+      setUserData(decdodedToken);
+    }
   }
 
   function logOut(){
