@@ -20,3 +20,9 @@
     background-color: var(--lighterColor);
     color: white;
 }
+
+@media (width < 768px){
+    .justify-center-media-query{
+        justify-content: center;
+    }
+}

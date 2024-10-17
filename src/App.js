@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
+import '../node_modules/bootstrap/dist/js/bootstrap'
 import '../node_modules/mdbootstrap/css/mdb.css'
 import './App.css'
 import Home from './components/Home/index.jsx';
@@ -12,6 +13,7 @@ import Movies from './components/Movies/index';
 import Navbar from './components/Navbar/index';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import Details from './components/Details';
+import ContextMoviesProvider from './components/Store';
 
 export default function App() {
 
@@ -29,7 +31,7 @@ export default function App() {
   }
 
   function ProtectedRoute({children}){
-    if(userData){
+    if(localStorage.getItem('token')){
       return children;
       
     }else{
@@ -48,26 +50,36 @@ export default function App() {
         <Routes>
           <Route path='' element={
             <ProtectedRoute>
-              <Home />
+              <ContextMoviesProvider>
+                <Home />
+              </ContextMoviesProvider>
             </ProtectedRoute>}/>
           <Route path='home' element={
             <ProtectedRoute>
-            <Home />
+              <ContextMoviesProvider>
+                <Home />
+              </ContextMoviesProvider>
           </ProtectedRoute>
           }/>
           <Route path='movies' element={
             <ProtectedRoute>
-            <Movies />
+              <ContextMoviesProvider>
+                <Movies />
+              </ContextMoviesProvider>
             </ProtectedRoute>
           }/>
           <Route path='people' element={
             <ProtectedRoute>
-            <People />
+              <ContextMoviesProvider>
+                <People />
+              </ContextMoviesProvider>
             </ProtectedRoute>
           }/>
           <Route path='tv' element={
             <ProtectedRoute>
-            <Tv />
+              <ContextMoviesProvider>
+                <Tv />
+              </ContextMoviesProvider>
             </ProtectedRoute>
           }/>
           <Route path='login' element={

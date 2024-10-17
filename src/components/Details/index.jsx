@@ -2,6 +2,7 @@ import React, {useEffect,useState} from 'react';
 import axios from 'axios';
 import imgPath from '../../constfunction/imgPath';
 import {useParams} from 'react-router-dom';
+import imagePerson from '../../images/placeholder-img.jpg';
 
 export default function Details() {
 
@@ -25,7 +26,7 @@ export default function Details() {
     <div className='row'>
       <div className="col-md-4">
           <div className="w-100">
-              <img src={category=='person' ? imgPath(details?.profile_path) : imgPath(details?.poster_path)} alt="" className='w-100' />
+              <img src={category=='person' ? (details?.profile_path?imgPath(details.profile_path) : imagePerson) : imgPath(details?.poster_path)} alt="" className='w-100' />
           </div>
       </div>
 
@@ -33,7 +34,9 @@ export default function Details() {
           <div className="col-md-7 offset-1">
                 <div className="">
                     <h1>{details?.title}</h1>
-                    <p>{details?.overview}</p>
+                    <h2>{details?.release_date}</h2>
+                    <h3>{details?.genres.map((genre,i,genres)=>(<span key={i} className='me-3'>{genre.name} {i != genres.length-1 && <>|</>}</span>))}</h3>
+                    <p className='fs-4'>{details?.overview}</p>
                 </div>
           </div>
       ): (category === 'person' ? (
