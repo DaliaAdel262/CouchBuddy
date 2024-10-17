@@ -1,8 +1,10 @@
-import React from 'react'
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import React, {useState} from 'react'
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import './index.css'
+import { motion } from 'framer-motion';
 
 export default function Navbar({userData,logOut}) {
+    const {pathname} = useLocation();
     const navigate = useNavigate();
   return (
     <nav className="navbar navbar-expand-lg navbar-dark nav-color">
@@ -13,18 +15,26 @@ export default function Navbar({userData,logOut}) {
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
         {userData && (<ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item">
+            <motion.li 
+            initial={pathname === '/' || pathname === '/home' ? { backgroundColor : '#2e1919', color: 'rgb(255,255,255)' } : {}}
+            >
                 <Link className="nav-link active fs-5" aria-current="page" to='home'>Home</Link>
-            </li>
-            <li className="nav-item">
+            </motion.li>
+            <motion.li 
+            initial={pathname === '/movies' ? { backgroundColor : '#2e1919', color: 'rgb(255,255,255)' } : {}}
+            >
                 <Link className="nav-link active fs-5" aria-current="page" to='movies'>Movies</Link>
-            </li>
-            <li className="nav-item">
+            </motion.li>
+            <motion.li 
+            initial={pathname === '/people' ? { backgroundColor : '#2e1919', color: 'rgb(255,255,255)' } : {}}
+            >
                 <Link className="nav-link active fs-5" aria-current="page" to='people'>People</Link>
-            </li>
-            <li className="nav-item">
+            </motion.li>
+            <motion.li 
+            initial={pathname === '/tv' ? { backgroundColor : '#2e1919', color: 'rgb(255,255,255)' } : {}}
+            >
                 <Link className="nav-link active fs-5" aria-current="page" to='tv'>Tv</Link>
-            </li>
+            </motion.li>
         </ul>)}
         
 

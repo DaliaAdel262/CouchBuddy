@@ -14,6 +14,7 @@ import Navbar from './components/Navbar/index';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import Details from './components/Details';
 import ContextMoviesProvider from './components/Store';
+import Loading from './components/Loading'
 
 export default function App() {
 

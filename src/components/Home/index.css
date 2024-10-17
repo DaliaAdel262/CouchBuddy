@@ -8,6 +8,7 @@
 .img-style{
     width: 100%;
     height: 80%;
+    position: relative;
 }
 .load-more-btn-style{
     font-size: 25px;

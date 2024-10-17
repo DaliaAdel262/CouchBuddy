@@ -2,7 +2,7 @@ import React, {useEffect,useState} from 'react';
 import axios from 'axios';
 import imgPath from '../../constfunction/imgPath';
 import {useParams} from 'react-router-dom';
-import imagePerson from '../../images/placeholder-img.jpg';
+import placeholder from '../../images/image-placeholder.png';
 
 export default function Details() {
 
@@ -26,7 +26,7 @@ export default function Details() {
     <div className='row'>
       <div className="col-md-4">
           <div className="w-100">
-              <img src={category=='person' ? (details?.profile_path?imgPath(details.profile_path) : imagePerson) : imgPath(details?.poster_path)} alt="" className='w-100' />
+              <img src={category=='person' ? (details?.profile_path ? imgPath(details.profile_path) : placeholder) : (details?.poster_path ? imgPath(details?.poster_path) : placeholder)} alt="" className='w-100' />
           </div>
       </div>
 
