@@ -72,7 +72,7 @@ export default function Register() {
   };
   return (
     <div className=''>
-      <div className='container w-50'>
+      <div className='container w-50 pb-4'>
         <h1 className='text-center mb-3'>Register</h1>
         {errorMsg.length>0 && (<h1 className='h6 alert alert-danger'>{errorMsg}</h1>)}
         {validationError.length>0 && (validationError.map((error,index)=>(
