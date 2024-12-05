@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import {useNavigate} from 'react-router-dom';
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../firebase/firebaseConfig";
 import axios from 'axios';
 import Joi from 'joi';
 import './index.css'
@@ -34,26 +36,18 @@ export default function Login({saveUserData}) {
   }
 
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     setErrorMsg('');
-    axios.post('http://hawas.runasp.net/api/v1/Login', userData)
-      .then((res) => {
-        localStorage.setItem('token',res.data.jwt);
-        saveUserData();
-        navigate('/');
-      })
-      .catch((err) => {
-        setErrorMsg(err.response.data);
-      });
-    // setValidationError([]);
-    // const validate = validation();
-    // if(validate.error){
-    //   setValidationError(validate.error.details);
-    // }
-    // else{
-      
-    // }
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, userData.email, userData.password);
+      const user = userCredential.user;
+
+      saveUserData(user);
+      navigate('/');
+  } catch (err) {
+      setErrorMsg(err.message);
+  }
   };
   return (
     <div className=''>

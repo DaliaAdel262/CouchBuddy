@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import Joi from 'joi';
-import './index.css'
+import './index.css';
+import { auth } from '../../firebase/firebaseConfig';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 export default function Register() {
   const navigate = useNavigate();
@@ -58,12 +60,14 @@ export default function Register() {
       setValidationError(validate.error.details);
     }
     else{
-      axios.post('http://hawas.runasp.net/api/v1/Register', userData)
-      .then((res) => {
-        navigate('/login')
+      createUserWithEmailAndPassword(auth, userData.email, userData.password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log('Registered successfully:', user);
+        navigate('/login');
       })
-      .catch((err) => {
-        setErrorMsg(err.response.data);
+      .catch((error) => {
+        setErrorMsg(error.message);
       });
     }
   };

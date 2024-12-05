@@ -15,17 +15,27 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import Details from './components/Details';
 import ContextMoviesProvider from './components/Store';
 import Loading from './components/Loading'
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "./firebase/firebaseConfig";
 
 export default function App() {
 
   const [userData, setUserData] = useState(null);
 
-  function savaDataUser(){
-    if(localStorage.getItem('token')){
-      let encodedToken = localStorage.getItem('token');
-      let decdodedToken = jwtDecode(encodedToken);
-      setUserData(decdodedToken);
-    }
+  function savaDataUser(user){
+    if (user) {
+      user.getIdToken()
+          .then((idToken) => {
+              localStorage.setItem('token', idToken);
+              const decodedToken = jwtDecode(idToken);
+              setUserData(decodedToken);
+
+              console.log("User logged in:", decodedToken);
+          })
+          .catch((err) => {
+              console.error("Failed to retrieve token:", err);
+          });
+  }
   }
 
   function logOut(){
@@ -43,7 +53,11 @@ export default function App() {
   }
 
   useEffect(()=>{
-    savaDataUser();
+    const token = localStorage.getItem('token');
+    if (token) {
+        const decodedToken = jwtDecode(token);
+        setUserData(decodedToken);
+    }
   },[])
 
   return (
