@@ -72,7 +72,7 @@ export default function Register() {
   };
   return (
     <div className=''>
-      <div className='container w-50 pb-4'>
+      <div className='container w-50'>
         <h1 className='text-center mb-3'>Register</h1>
         {errorMsg.length>0 && (<h1 className='h6 alert alert-danger'>{errorMsg}</h1>)}
         {validationError.length>0 && (validationError.map((error,index)=>(
@@ -89,7 +89,9 @@ export default function Register() {
           <input type="password" name='password' className='form-control rounded-5 mb-4' onChange={getData}/>
           <label htmlFor="" className='form-label fs-4'>Confirm password</label>
           <input type="password" name='rePassword' className='form-control rounded-5 mb-4' onChange={getData}/>
-          <button type='submit' className='custom-submit-button fs-5'>Submit</button>
+          <div className="button-cont p-3">
+            <button type='submit' className='custom-submit-button fs-5'>Submit</button>
+          </div>
         </form>
       </div>
     </div>
