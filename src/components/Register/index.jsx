@@ -63,7 +63,6 @@ export default function Register() {
       createUserWithEmailAndPassword(auth, userData.email, userData.password)
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log('Registered successfully:', user);
         navigate('/login');
       })
       .catch((error) => {

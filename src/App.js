@@ -29,8 +29,6 @@ export default function App() {
               localStorage.setItem('token', idToken);
               const decodedToken = jwtDecode(idToken);
               setUserData(decodedToken);
-
-              console.log("User logged in:", decodedToken);
           })
           .catch((err) => {
               console.error("Failed to retrieve token:", err);
