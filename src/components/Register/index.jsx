@@ -71,14 +71,14 @@ export default function Register() {
     }
   };
   return (
-    <div className=''>
+    <div className='vh-100'>
       <div className='container w-50'>
         <h1 className='text-center mb-3'>Register</h1>
         {errorMsg.length>0 && (<h1 className='h6 alert alert-danger'>{errorMsg}</h1>)}
         {validationError.length>0 && (validationError.map((error,index)=>(
           <h1 key={index} className='h6 alert alert-danger'>{error.message}</h1>
         )))}
-        <form onSubmit={handleSubmit} action="" className='mt-4 mx-lg-5 d-flex flex-column'>
+        <form onSubmit={handleSubmit} action="" className='mt-4 mb-4 mx-lg-5 d-flex flex-column'>
           <label htmlFor="" className='form-label fs-4'>Username</label>
           <input type="text" name='userName' className='form-control rounded-5 mb-4' onChange={getData}/>
           <label htmlFor="" className='form-label fs-4'>Date of birth</label>
@@ -89,7 +89,7 @@ export default function Register() {
           <input type="password" name='password' className='form-control rounded-5 mb-4' onChange={getData}/>
           <label htmlFor="" className='form-label fs-4'>Confirm password</label>
           <input type="password" name='rePassword' className='form-control rounded-5 mb-4' onChange={getData}/>
-          <div className="button-cont p-3">
+          <div className="button-cont p-3 d-flex justify-content-center">
             <button type='submit' className='custom-submit-button fs-5'>Submit</button>
           </div>
         </form>
