@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import {useNavigate} from 'react-router-dom';
-import axios from 'axios';
 import Joi from 'joi';
 import './index.css';
 import { auth } from '../../firebase/firebaseConfig';
@@ -89,7 +88,7 @@ export default function Register() {
           <input type="password" name='password' className='form-control rounded-5 mb-4' onChange={getData}/>
           <label htmlFor="" className='form-label fs-4'>Confirm password</label>
           <input type="password" name='rePassword' className='form-control rounded-5 mb-4' onChange={getData}/>
-          <div className="button-cont p-3 d-flex justify-content-center">
+          <div className="button-cont p-3 d-flex justify-content-center" onClick={handleSubmit}>
             <button type='submit' className='custom-submit-button fs-5'>Submit</button>
           </div>
         </form>
